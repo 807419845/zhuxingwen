@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朱行文 · 瓷韵天成</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #333333;
+            --text: #666666;
+            --light: #f5f5f5;
+            --white: #ffffff;
+            --accent: #c9a962;
+        }
+
+        body {
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background-color: var(--white);
+            color: var(--primary);
+            line-height: 1.8;
+            padding-top: 70px;
+        }
+
+        body.sidebar-open {
+            overflow: hidden;
+        }
+
+        /* 导航栏 - 白色 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            padding: 1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            transition: color 0.3s;
+        }
+
+        .nav-center a:hover {
+            color: var(--text);
+        }
+
+        .cart-icon {
+            cursor: pointer;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: var(--white);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .cart-badge.show {
+            display: flex;
+        }
+
+        /* 英雄区 - 大标题 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem 4rem;
+            background: #f8f6f3;
+        }
+
+        .hero-subtitle {
+            font-size: 0.85rem;
+            color: var(--text);
+            letter-spacing: 0.3em;
+            margin-bottom: 0.3rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text);
+            letter-spacing: 0.1em;
+            max-width: 600px;
+            line-height: 2;
+        }
+
+        .hero-btn {
+            margin-top: 2.5rem;
+            padding: 0.8rem 2.5rem;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+        }
+
+        .hero-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* 关于艺术家 - 左图右文 */
+        .about {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            flex: 1;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 500px;
+            display: block;
+        }
+
+        .about-content {
+            flex: 1;
+        }
+
+        .about-content h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .about-content p {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            line-height: 2;
+        }
+
+        .about-signature {
+            margin-top: 2rem;
+            font-style: italic;
+            color: var(--text);
+            text-align: right;
+        }
+
+        /* 作品收藏 */
+        .gallery {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-header h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-header p {
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .gallery-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            background: transparent;
+            border: 1px solid #ddd;
+            color: var(--text);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .work-item {
+            position: relative;
+            cursor: pointer;
+            background: var(--white);
+        }
+
+        .work-image-wrap {
+            overflow: hidden;
+        }
+
+        .work-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .work-item:hover .work-image {
+            transform: scale(1.05);
+        }
+
+        .work-info {
+            padding: 1rem 0;
+        }
+
+        .work-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: #1a1a1a;
+        }
+
+        .work-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .work-category {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .work-price {
+            font-size: 0.95rem;
+            color: #333;
+            font-weight: 400;
+        }
+
+        .work-size {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #f5f5f5;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .work-in-cart {
+            position: absolute;
+            top: 0.8rem;
+            right: 0.8rem;
+            background: rgba(26, 26, 26, 0.85);
+            color: var(--white);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .work-in-cart.show {
+            display: block;
+        }
+
+        /* 分页样式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .page-btn {
+            padding: 0.6rem 1rem;
+            border: 1px solid #ddd;
+            background: var(--white);
+            color: var(--text);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .page-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 作品详情弹窗 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+            background: var(--white);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .modal-close svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .modal-content {
+            display: flex;
+        }
+
+        .modal-image-section {
+            flex: 1;
+            background: #f5f5f5;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-main-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-main-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-main-image img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .modal-thumbnails {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .modal-thumbnails img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .modal-thumbnails img.active {
+            border-color: var(--primary);
+        }
+
+        .modal-details {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .modal-category {
+            font-size: 0.8rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .modal-price {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .modal-desc {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .modal-specs {
+            margin-bottom: 2rem;
+        }
+
+        .modal-specs h4 {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .specs-row {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text);
+        }
+
+        .specs-row span:first-child {
+            color: #999;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .add-to-cart-btn {
+            flex: 1;
+            padding: 1rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--secondary);
+        }
+
+        .add-to-cart-btn.added {
+            background: #4a7c59;
+        }
+
+        .contact-buy-btn {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .contact-buy-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* 询价单侧边栏 */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            display: none;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            max-width: 100%;
+            height: 100%;
+            background: var(--white);
+            z-index: 1600;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.show {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+
+        .sidebar-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .sidebar-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .sidebar-empty {
+            text-align: center;
+            color: var(--text);
+            padding: 3rem 0;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-price {
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 0.5rem;
+        }
+
+        .cart-item-remove:hover {
+            color: var(--primary);
+        }
+
+        .cart-summary {
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-total-label {
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .cart-total-price {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .cart-note {
+            font-size: 0.8rem;
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #8b7355;
+            color: var(--white);
+            border: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #6d5a44;
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* 表单弹窗 */
+        .form-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .form-modal.show {
+            display: flex;
+        }
+
+        .form-modal-content {
+            background: var(--white);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 3rem;
+            position: relative;
+        }
+
+        .form-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .form-modal h3 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-modal .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-modal .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .form-modal .form-group input,
+        .form-modal .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .form-modal .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-modal .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .form-modal .submit-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* 支付弹窗 */
+        .pay-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .pay-modal.show {
+            display: flex;
+        }
+
+        .pay-modal-content {
+            background: var(--white);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            position: relative;
+            text-align: center;
+        }
+
+        .pay-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .pay-modal h3 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .pay-modal .pay-amount {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        /* 电脑端 - 显示二维码 */
+        .pay-qrcode-section {
+            display: none;
+        }
+
+        .pay-qrcode-section h4 {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .pay-qrcode-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pay-qrcode-item {
+            text-align: center;
+        }
+
+        .pay-qrcode-item img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            border: 1px solid #eee;
+            margin-bottom: 0.5rem;
+        }
+
+        .pay-qrcode-item span {
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        /* 电脑端标签切换 */
+        .pay-tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .pay-tab {
+            padding: 0.8rem 2rem;
+            border: 1px solid #ddd;
+            background: var(--white);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pay-tab.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .pay-qrcode {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1rem;
+        }
+
+        .pay-qrcode img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .pay-qrcode img.active {
+            display: block;
+        }
+
+        .pay-tip {
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        /* 手机端 - 显示跳转按钮 */
+        .pay-mobile-section {
+            display: none;
+        }
+
+        .pay-mobile-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .pay-mobile-btn.wechat {
+            background: #07c160;
+        }
+
+        .pay-mobile-btn.alipay {
+            background: #1677ff;
+        }
+
+        .pay-mobile-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 响应式显示 */
+        @media (min-width: 769px) {
+            .pay-qrcode-section {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pay-mobile-section {
+                display: block;
+            }
+        }
+
+        /* 手机端支付样式 */
+        .pay-mobile-tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .pay-mobile-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid #ddd;
+            background: var(--white);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pay-mobile-tab.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .pay-mobile-tab svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .pay-mobile-qrcode {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 0.5rem;
+        }
+
+        .pay-mobile-qrcode img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .pay-mobile-qrcode img.active {
+            display: block;
+        }
+
+        .pay-mobile-tip {
+            font-size: 0.85rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+
+        /* 备注提示区域 */
+        .pay-remark-section {
+            background: #fff8e1;
+            border: 1px solid #ffcc80;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .pay-remark-title {
+            font-size: 0.9rem;
+            color: #e65100;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .pay-remark-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--white);
+            border: 1px dashed #ffcc80;
+            border-radius: 6px;
+            padding: 0.6rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pay-remark-text {
+            font-size: 0.95rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .pay-copy-btn {
+            padding: 0.3rem 0.8rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .pay-copy-btn:active {
+            opacity: 0.8;
+        }
+
+        .pay-remark-hint {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* 联系我们 - 深色底 */
+        .contact {
+            background: #1a1a1a;
+            color: var(--white);
+            padding: 5rem 2rem;
+        }
+
+        .contact-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .contact-subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .contact-icon:hover {
+            border-color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .contact-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: rgba(255,255,255,0.8);
+        }
+
+        .contact-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-value {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* 页脚 */
+        footer {
+            background: #f5f5f5;
+            color: #888;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.8rem;
+        }
+
+
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-center {
+                gap: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 0.2em;
+            }
+
+            .about {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                flex-direction: column;
+            }
+
+            .modal-image {
+                height: 300px;
+            }
+
+            .modal-details {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#about" class="logo">朱行文</a>
+        <div class="nav-center">
+            <a href="#about">关于艺术家</a>
+            <a href="#gallery">作品收藏</a>
+            <a href="#contact">联系方式</a>
+        </div>
+        <div class="cart-icon" id="cartIcon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span class="cart-badge" id="cartBadge">0</span>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <p class="hero-subtitle">陶瓷艺术家 · 朱行文</p>
+        <h1>瓷韵天成</h1>
+        <p>以瓷为纸，以釉为墨，每一件作品都是灵魂与泥土的对话。在传统与创新之间，寻找属于这个时代的陶瓷语言。</p>
+        <a href="#gallery" class="hero-btn">探索作品</a>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80" alt="朱行文作品">
+        </div>
+        <div class="about-content">
+            <h2>关于艺术家</h2>
+            <p><strong>朱行文</strong>，笔名大胡子、墨荷。国家一级美术师，中国书画家研究会会员，中国国画家协会会员，中国国礼特供艺术家，中国荷花协会会员，中国民建书画专业委员会会员，中国少数民族用品协会会员，中国美术家协会江西分会会员，北京华夏兰亭书画院院士，陕西书画艺术协会副主席，安徽当代陶瓷艺术研究院副院长，山东鸿儒书画院副院长，香港美术家协会副秘书长，香港美协美术馆副馆长，江西原创工艺美术大师，江西省根石艺美术学会常务理事，江西省工艺美术学会理事，景德镇市陶瓷艺术产业信息协会常务副会长，新余市渝水美术家协会副主席。</p>
+            <p>1989年拼贴画作品荣获福建省泉州市首届大中专院校艺术节大赛一等奖；1992年中央电视台早间和午间新闻栏目做过个人作品专题报道；2016年国画《墨荷》荣获全国第八届文学艺术大赛美术一等奖，青花瓷《荷香》荣获中国工艺美术百花奖铜奖，入刊《联合国画报》，出版发行个人作品专辑邮册；2017年入编《中国美术选集》，荣获中国第十一届国画书法大赛二等奖；2018年入编《新中国美术图鉴》并出版个人作品专辑《朱行文作品集》，且获得"千名陶瓷家手绘花瓶"吉尼斯世界纪录殊荣；2019年入编《世界美术家大辞典》；2020年岁末荣获全球艺术家艺术作品大奖赛先锋创意二等奖；2021年入编《聚焦中国当代艺术家》，获得"2021全国艺术楷模"荣誉勋章，被中国美术家协会中国书法家协会授予"人民艺术家"荣誉称号；2023年被国宾礼艺术网组委会朝闻天下艺术组委会授予"国家艺坛代表性艺术家"，被授予"世界文化交流伟大贡献奖"，创作的作品青花瓷瓶《荷韵》被中国陶瓷博物馆收藏；2024年1月被聘为世界非物质文化遗产研究院特聘院士，荣获第二届"中华水墨杯"诗书画展大赛优秀奖，荣获"当代百年艺术家"称号，被评为全球胡润榜潜力陶瓷艺术家，荣获中国美术终身成就奖，获得国务院政府特殊津贴专家；2025年艺术中的诺贝尔奖获得者，荣获达芬奇艺术奖《金奖》，荣获美国科罗拉多工程学院艺术类荣誉博士。</p>
+            <p>朱行文擅长荷花为题材的创作，清新秀逸，自成一格，使"和文化"美德在作品中展现的淋漓尽致，同时他又将工艺美术大师独具匠心的绘画功底融入景德镇陶瓷上，使每一件作品都巧夺天工，充满生命力，具有极高的艺术观赏性和收藏价值。</p>
+            <p class="about-signature">— 朱行文</p>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <div class="gallery-header">
+            <h2>作品收藏</h2>
+            <p>精选陶瓷艺术作品，每一件都是独一无二的手作珍品</p>
+        </div>
+
+        <div class="gallery-filter">
+            <button class="filter-btn active">全部作品</button>
+            <button class="filter-btn">瓷瓶</button>
+            <button class="filter-btn">瓷板画</button>
+            <button class="filter-btn">国画</button>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="work-item" data-id="1" data-title="青花山水瓷瓶 No.001" data-image="1.jpg" data-images="1.jpg,2.jpg,3.jpg,4.jpg" data-price="12800" data-category="瓷瓶" data-size="高35cm" data-desc="采用优质景德镇高岭土，经1380度高温烧制而成。画面描绘山水意境，笔触细腻，层次分明，是传统青花艺术的经典之作。" data-material="景德镇高岭土" data-craft="釉下彩手工绘制" data-year="2024年">
+                <span class="work-in-cart" data-id="1">已在购物单</span>
+                <img src="1.jpg" alt="作品1" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花山水瓷瓶 No.001</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥12,800</span>
+                    </div>
+                    <span class="work-size">高35cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="2" data-title="粉彩花鸟瓷瓶 No.002" data-image="5.jpg" data-images="5.jpg,6.jpg,7.jpg" data-price="15600" data-category="瓷瓶" data-size="高42cm" data-desc="经典的缠枝莲纹样，线条流畅优美，展现了中国传统装饰艺术的精髓。每一件都是纯手工绘制，独一无二。" data-material="景德镇高岭土" data-craft="粉彩工艺" data-year="2024年">
+                <span class="work-in-cart" data-id="2">已在购物单</span>
+                <img src="5.jpg" alt="作品2" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">粉彩花鸟瓷瓶 No.002</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥15,600</span>
+                    </div>
+                    <span class="work-size">高42cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="3" data-title="釉下彩人物瓷瓶 No.003" data-image="8.jpg" data-images="8.jpg,9.jpg" data-price="18000" data-category="瓷瓶" data-size="高38cm" data-desc="以传统人物故事为题材，构图饱满，人物神态生动。画面富有叙事性，展示了青花瓷装饰艺术的深厚文化底蕴。" data-material="景德镇高岭土" data-craft="釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="3">已在购物单</span>
+                <img src="8.jpg" alt="作品3" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">釉下彩人物瓷瓶 No.003</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥18,000</span>
+                    </div>
+                    <span class="work-size">高38cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="4" data-title="青花龙纹瓷瓶 No.004" data-image="10.jpg" data-images="10.jpg,11.jpg,12.jpg" data-price="22000" data-category="瓷瓶" data-size="高45cm" data-desc="花鸟纹样生动活泼，构图疏密有致。画面中的鸟儿栩栩如生，花卉争奇斗艳，体现了大自然的美妙与和谐。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="4">已在购物单</span>
+                <img src="10.jpg" alt="作品4" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花龙纹瓷瓶 No.004</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥22,000</span>
+                    </div>
+                    <span class="work-size">高45cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="5" data-title="综合装饰瓷瓶 No.005" data-image="13.jpg" data-images="13.jpg,14.jpg,15.jpg,16.jpg" data-price="28000" data-category="瓷瓶" data-size="高50cm" data-desc="将中国传统书法艺术与青花瓷完美结合。书法笔力遒劲，釉色温润，展现了文人雅士的审美情趣。" data-material="景德镇高岭土" data-craft="综合装饰" data-year="2024年">
+                <span class="work-in-cart" data-id="5">已在购物单</span>
+                <img src="13.jpg" alt="作品5" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">综合装饰瓷瓶 No.005</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥28,000</span>
+                    </div>
+                    <span class="work-size">高50cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="6" data-title="青花缠枝莲纹瓶 No.006" data-image="17.jpg" data-images="17.jpg,18.jpg,19.jpg" data-price="16800" data-category="瓷瓶" data-size="高40cm" data-desc="盘面开阔，适合展示山水画的意境。画面意境深远，层次丰富，既有传统韵味又不失现代美感。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="6">已在购物单</span>
+                <img src="17.jpg" alt="作品6" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花缠枝莲纹瓶 No.006</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥16,800</span>
+                    </div>
+                    <span class="work-size">高40cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="7" data-title="青花梅瓶 No.007" data-image="20.jpg" data-images="20.jpg,21.jpg,22.jpg,23.jpg" data-price="9800" data-category="瓷瓶" data-size="高25cm" data-desc="梅瓶是宋代经典器型，造型秀美大方。配合青花纹样，更显典雅气质，是收藏与实用兼备的佳品。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="7">已在购物单</span>
+                <img src="20.jpg" alt="作品7" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花梅瓶 No.007</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥9,800</span>
+                    </div>
+                    <span class="work-size">高25cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="8" data-title="青花玉壶春瓶 No.008" data-image="24.jpg" data-images="24.jpg,25.jpg,26.jpg" data-price="13500" data-category="瓷瓶" data-size="高30cm" data-desc="玉壶春瓶以其优美的曲线著称，是瓷器中的经典器型。配以青花纹样，更添雅致之韵。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="8">已在购物单</span>
+                <img src="24.jpg" alt="作品8" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花玉壶春瓶 No.008</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥13,500</span>
+                    </div>
+                    <span class="work-size">高30cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="9" data-title="青花天球瓶 No.009" data-image="27.jpg" data-images="27.jpg,28.jpg,29.jpg" data-price="32000" data-category="瓷瓶" data-size="高42cm" data-desc="天球瓶造型端庄稳重，气势恢宏。适合展示大幅青花画面，是大型瓷器的代表作。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="9">已在购物单</span>
+                <img src="27.jpg" alt="作品9" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花天球瓶 No.009</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥32,000</span>
+                    </div>
+                    <span class="work-size">高42cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="10" data-title="青花观音瓶 No.010" data-image="30.jpg" data-images="30.jpg,31.jpg" data-price="19500" data-category="瓷瓶" data-size="高36cm" data-desc="观音瓶线条流畅，比例协调，是清代流行器型。纹样精美，釉色纯正，极具收藏价值。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="10">已在购物单</span>
+                <img src="30.jpg" alt="作品10" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花观音瓶 No.010</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥19,500</span>
+                    </div>
+                    <span class="work-size">高36cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="11" data-title="青花将军罐 No.011" data-image="32.jpg" data-images="32.jpg,33.jpg" data-price="26000" data-category="瓷瓶" data-size="高45cm" data-desc="将军罐因罐盖似将军头盔而得名，造型威武。纹样丰富饱满，是青花瓷器中的经典器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="11">已在购物单</span>
+                <img src="32.jpg" alt="作品11" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花将军罐 No.011</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥26,000</span>
+                    </div>
+                    <span class="work-size">高45cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="12" data-title="青花茶叶罐 No.012" data-image="34.jpg" data-images="34.jpg,35.jpg,36.jpg,37.jpg,38.jpg" data-price="6800" data-category="瓷瓶" data-size="高15cm" data-desc="小巧精致的茶叶罐，兼具实用与美观。密封性好，适合存放茶叶或小件物品，也是馈赠佳品。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="12">已在购物单</span>
+                <img src="34.jpg" alt="作品12" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花茶叶罐 No.012</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥6,800</span>
+                    </div>
+                    <span class="work-size">高15cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="13" data-title="青花赏瓶 No.013" data-image="39.jpg" data-images="39.jpg,40.jpg,41.jpg" data-price="45000" data-category="瓷瓶" data-size="高50cm" data-desc="赏瓶是清代宫廷陈设用瓷，造型秀美。纹样精美，品相完好，是收藏与陈设的绝佳选择。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="13">已在购物单</span>
+                <img src="39.jpg" alt="作品13" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花赏瓶 No.013</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥45,000</span>
+                    </div>
+                    <span class="work-size">高50cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="14" data-title="青花花瓶 No.014" data-image="42.jpg" data-images="42.jpg,43.jpg,44.jpg" data-price="15800" data-category="瓷瓶" data-size="高32cm" data-desc="经典青花花瓶，造型优雅，纹饰精美，适合家居陈设与收藏。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="14">已在购物单</span>
+                <img src="42.jpg" alt="作品14" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花花瓶 No.014</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥15,800</span>
+                    </div>
+                    <span class="work-size">高32cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="15" data-title="青花葫芦瓶 No.015" data-image="45.jpg" data-images="45.jpg,46.jpg,47.jpg" data-price="18500" data-category="瓷瓶" data-size="高28cm" data-desc="葫芦瓶寓意福禄，造型独特，是传统的吉祥器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="15">已在购物单</span>
+                <img src="45.jpg" alt="作品15" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花葫芦瓶 No.015</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥18,500</span>
+                    </div>
+                    <span class="work-size">高28cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="16" data-title="青花蒜头瓶 No.016" data-image="48.jpg" data-images="48.jpg,49.jpg,50.jpg" data-price="21000" data-category="瓷瓶" data-size="高38cm" data-desc="蒜头瓶因瓶口似蒜头而得名，造型别致，是明代经典器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="16">已在购物单</span>
+                <img src="48.jpg" alt="作品16" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花蒜头瓶 No.016</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥21,000</span>
+                    </div>
+                    <span class="work-size">高38cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="17" data-title="青花棒槌瓶 No.017" data-image="51.jpg" data-images="51.jpg,52.jpg" data-price="16800" data-category="瓷瓶" data-size="高40cm" data-desc="棒槌瓶造型挺拔，线条简洁，是清代康熙时期的流行器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="17">已在购物单</span>
+                <img src="51.jpg" alt="作品17" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花棒槌瓶 No.017</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥16,800</span>
+                    </div>
+                    <span class="work-size">高40cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="18" data-title="青花灯笼瓶 No.018" data-image="53.jpg" data-images="53.jpg,54.jpg" data-price="14200" data-category="瓷瓶" data-size="高30cm" data-desc="灯笼瓶造型圆润，形似灯笼，寓意光明与喜庆。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="18">已在购物单</span>
+                <img src="53.jpg" alt="作品18" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花灯笼瓶 No.018</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥14,200</span>
+                    </div>
+                    <span class="work-size">高30cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="19" data-title="青花橄榄瓶 No.019" data-image="57.jpg" data-images="57.jpg,58.jpg,59.jpg" data-price="19500" data-category="瓷瓶" data-size="高35cm" data-desc="橄榄瓶形似橄榄，线条流畅优美，是清代雍正时期的经典器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="19">已在购物单</span>
+                <img src="57.jpg" alt="作品19" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花橄榄瓶 No.019</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥19,500</span>
+                    </div>
+                    <span class="work-size">高35cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="20" data-title="青花盘口瓶 No.020" data-image="60.jpg" data-images="60.jpg,61.jpg,62.jpg" data-price="22800" data-category="瓷瓶" data-size="高42cm" data-desc="盘口瓶瓶口外撇如盘，造型端庄大气，适合陈设展示。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="20">已在购物单</span>
+                <img src="60.jpg" alt="作品20" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花盘口瓶 No.020</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥22,800</span>
+                    </div>
+                    <span class="work-size">高42cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="21" data-title="青花弦纹瓶 No.021" data-image="63.jpg" data-images="63.jpg,64.jpg" data-price="17500" data-category="瓷瓶" data-size="高33cm" data-desc="弦纹瓶以凸起的弦纹为装饰，简约而不失典雅。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="21">已在购物单</span>
+                <img src="63.jpg" alt="作品21" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花弦纹瓶 No.021</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥17,500</span>
+                    </div>
+                    <span class="work-size">高33cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="22" data-title="青花凤尾瓶 No.022" data-image="65.jpg" data-images="65.jpg,66.jpg,67.jpg" data-price="26000" data-category="瓷瓶" data-size="高45cm" data-desc="凤尾瓶瓶口外撇如凤尾，造型优美，寓意吉祥。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="22">已在购物单</span>
+                <img src="65.jpg" alt="作品22" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花凤尾瓶 No.022</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥26,000</span>
+                    </div>
+                    <span class="work-size">高45cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="23" data-title="青花洗口瓶 No.023" data-image="68.jpg" data-images="68.jpg,69.jpg" data-price="15200" data-category="瓷瓶" data-size="高36cm" data-desc="洗口瓶瓶口内敛如洗，造型独特，是文人雅士喜爱的器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="23">已在购物单</span>
+                <img src="68.jpg" alt="作品23" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花洗口瓶 No.023</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥15,200</span>
+                    </div>
+                    <span class="work-size">高36cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="24" data-title="青花石榴瓶 No.024" data-image="70.jpg" data-images="70.jpg,71.jpg,72.jpg" data-price="19800" data-category="瓷瓶" data-size="高38cm" data-desc="石榴瓶形似石榴，寓意多子多福，是传统的吉祥器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="24">已在购物单</span>
+                <img src="70.jpg" alt="作品24" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花石榴瓶 No.024</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥19,800</span>
+                    </div>
+                    <span class="work-size">高38cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="25" data-title="青花莲子瓶 No.025" data-image="73.jpg" data-images="73.jpg,74.jpg" data-price="16500" data-category="瓷瓶" data-size="高34cm" data-desc="莲子瓶造型圆润饱满，寓意连生贵子，幸福美满。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="25">已在购物单</span>
+                <img src="73.jpg" alt="作品25" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花莲子瓶 No.025</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥16,500</span>
+                    </div>
+                    <span class="work-size">高34cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="26" data-title="青花荸荠瓶 No.026" data-image="75.jpg" data-images="75.jpg,76.jpg" data-price="18200" data-category="瓷瓶" data-size="高37cm" data-desc="荸荠瓶形似荸荠，造型别致，是清代乾隆时期的流行器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="26">已在购物单</span>
+                <img src="75.jpg" alt="作品26" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花荸荠瓶 No.026</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥18,200</span>
+                    </div>
+                    <span class="work-size">高37cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="27" data-title="青花纸槌瓶 No.027" data-image="77.jpg" data-images="77.jpg,78.jpg" data-price="14500" data-category="瓷瓶" data-size="高31cm" data-desc="纸槌瓶造型修长，形似纸槌，是宋代经典器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="27">已在购物单</span>
+                <img src="77.jpg" alt="作品27" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花纸槌瓶 No.027</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥14,500</span>
+                    </div>
+                    <span class="work-size">高31cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="28" data-title="青花贯耳瓶 No.028" data-image="79.jpg" data-images="79.jpg,80.jpg,81.jpg,82.jpg" data-price="32000" data-category="瓷瓶" data-size="高48cm" data-desc="贯耳瓶两侧有贯耳，造型古朴典雅，是商周青铜器的演变。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="28">已在购物单</span>
+                <img src="79.jpg" alt="作品28" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花贯耳瓶 No.028</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥32,000</span>
+                    </div>
+                    <span class="work-size">高48cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="29" data-title="青花象耳瓶 No.029" data-image="83.jpg" data-images="83.jpg,84.jpg" data-price="28500" data-category="瓷瓶" data-size="高44cm" data-desc="象耳瓶以象首为耳，造型威武，寓意太平有象。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="29">已在购物单</span>
+                <img src="83.jpg" alt="作品29" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花象耳瓶 No.029</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥28,500</span>
+                    </div>
+                    <span class="work-size">高44cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="30" data-title="青花鹿耳瓶 No.030" data-image="85.jpg" data-images="85.jpg,86.jpg,87.jpg,88.jpg" data-price="24000" data-category="瓷瓶" data-size="高40cm" data-desc="鹿耳瓶以鹿首为耳，造型灵动，寓意福禄双全。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="30">已在购物单</span>
+                <img src="85.jpg" alt="作品30" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花鹿耳瓶 No.030</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥24,000</span>
+                    </div>
+                    <span class="work-size">高40cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="31" data-title="青花螭耳瓶 No.031" data-image="89.jpg" data-images="89.jpg,90.jpg,91.jpg" data-price="35000" data-category="瓷瓶" data-size="高50cm" data-desc="螭耳瓶以螭龙为耳，造型威严，是古代皇家的御用器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="31">已在购物单</span>
+                <img src="89.jpg" alt="作品31" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花螭耳瓶 No.031</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥35,000</span>
+                    </div>
+                    <span class="work-size">高50cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="32" data-title="青花狮耳瓶 No.032" data-image="92.jpg" data-images="92.jpg,93.jpg,94.jpg" data-price="22000" data-category="瓷瓶" data-size="高38cm" data-desc="狮耳瓶以狮首为耳，造型威武，寓意镇宅辟邪。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="32">已在购物单</span>
+                <img src="92.jpg" alt="作品32" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花狮耳瓶 No.032</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥22,000</span>
+                    </div>
+                    <span class="work-size">高38cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="33" data-title="青花环耳瓶 No.033" data-image="95.jpg" data-images="95.jpg,96.jpg,97.jpg" data-price="19500" data-category="瓷瓶" data-size="高36cm" data-desc="环耳瓶以环形耳为饰，造型简洁大方，便于提携。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="33">已在购物单</span>
+                <img src="95.jpg" alt="作品33" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花环耳瓶 No.033</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥19,500</span>
+                    </div>
+                    <span class="work-size">高36cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="34" data-title="青花如意瓶 No.034" data-image="98.jpg" data-images="98.jpg,99.jpg,100.jpg" data-price="28000" data-category="瓷瓶" data-size="高42cm" data-desc="如意瓶造型优美，寓意吉祥如意，是传统的吉祥器型。" data-material="景德镇高岭土" data-craft="青花釉下彩" data-year="2024年">
+                <span class="work-in-cart" data-id="34">已在购物单</span>
+                <img src="98.jpg" alt="作品34" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">青花如意瓶 No.034</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷瓶</span>
+                        <span class="work-price">¥28,000</span>
+                    </div>
+                    <span class="work-size">高42cm</span>
+                </div>
+            </div>
+            <!-- 瓷板画作品 -->
+            <div class="work-item" data-id="35" data-title="瓷板画 No.001" data-image="101.jpg" data-images="101.jpg" data-price="35000" data-category="瓷板画" data-size="60×40cm" data-desc="精美的瓷板画作品，采用传统工艺绘制，画面细腻生动，极具收藏价值。" data-material="景德镇高白瓷板" data-craft="传统工艺" data-year="2024年">
+                <span class="work-in-cart" data-id="35">已在购物单</span>
+                <img src="101.jpg" alt="作品35" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">瓷板画 No.001</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷板画</span>
+                        <span class="work-price">¥35,000</span>
+                    </div>
+                    <span class="work-size">60×40cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="36" data-title="瓷板画 No.002" data-image="102.jpg" data-images="102.jpg" data-price="35000" data-category="瓷板画" data-size="60×40cm" data-desc="精美的瓷板画作品，采用传统工艺绘制，画面细腻生动，极具收藏价值。" data-material="景德镇高白瓷板" data-craft="传统工艺" data-year="2024年">
+                <span class="work-in-cart" data-id="36">已在购物单</span>
+                <img src="102.jpg" alt="作品36" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">瓷板画 No.002</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷板画</span>
+                        <span class="work-price">¥35,000</span>
+                    </div>
+                    <span class="work-size">60×40cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="39" data-title="瓷板画 No.003" data-image="103.jpg" data-images="103.jpg" data-price="35000" data-category="瓷板画" data-size="60×40cm" data-desc="精美的瓷板画作品，采用传统工艺绘制，画面细腻生动，极具收藏价值。" data-material="景德镇高白瓷板" data-craft="传统工艺" data-year="2024年">
+                <span class="work-in-cart" data-id="39">已在购物单</span>
+                <img src="103.jpg" alt="作品39" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">瓷板画 No.003</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷板画</span>
+                        <span class="work-price">¥35,000</span>
+                    </div>
+                    <span class="work-size">60×40cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="40" data-title="瓷板画 No.004" data-image="104.jpg" data-images="104.jpg" data-price="35000" data-category="瓷板画" data-size="60×40cm" data-desc="精美的瓷板画作品，采用传统工艺绘制，画面细腻生动，极具收藏价值。" data-material="景德镇高白瓷板" data-craft="传统工艺" data-year="2024年">
+                <span class="work-in-cart" data-id="40">已在购物单</span>
+                <img src="104.jpg" alt="作品40" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">瓷板画 No.004</h3>
+                    <div class="work-meta">
+                        <span class="work-category">瓷板画</span>
+                        <span class="work-price">¥35,000</span>
+                    </div>
+                    <span class="work-size">60×40cm</span>
+                </div>
+            </div>
+            <!-- 国画测试作品 -->
+            <div class="work-item" data-id="37" data-title="墨荷图 No.001" data-image="8.jpg" data-images="8.jpg,9.jpg" data-price="18000" data-category="国画" data-size="68×45cm" data-desc="以泼墨写意手法绘制荷花，墨色浓淡相宜，荷叶舒展自如，展现了荷花出淤泥而不染的高洁品格。" data-material="宣纸" data-craft="水墨写意" data-year="2024年">
+                <span class="work-in-cart" data-id="37">已在购物单</span>
+                <img src="8.jpg" alt="作品37" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">墨荷图 No.001</h3>
+                    <div class="work-meta">
+                        <span class="work-category">国画</span>
+                        <span class="work-price">¥18,000</span>
+                    </div>
+                    <span class="work-size">68×45cm</span>
+                </div>
+            </div>
+            <div class="work-item" data-id="38" data-title="山水清音图 No.002" data-image="10.jpg" data-images="10.jpg,11.jpg" data-price="25000" data-category="国画" data-size="90×60cm" data-desc="传统青绿山水技法，画面气势磅礴，山峦叠嶂，云雾缭绕，溪流潺潺，意境深远。" data-material="宣纸" data-craft="青绿山水" data-year="2024年">
+                <span class="work-in-cart" data-id="38">已在购物单</span>
+                <img src="10.jpg" alt="作品38" class="work-image">
+                <div class="work-info">
+                    <h3 class="work-title">山水清音图 No.002</h3>
+                    <div class="work-meta">
+                        <span class="work-category">国画</span>
+                        <span class="work-price">¥25,000</span>
+                    </div>
+                    <span class="work-size">90×60cm</span>
+                </div>
+            </div>
+        </div>
+        <div class="pagination" id="pagination"></div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="contact-inner">
+            <h2>联系我们</h2>
+            <p class="contact-subtitle">如需了解更多作品信息或收藏咨询，请通过以下方式联系我们</p>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <a href="mailto:807419845@qq.com" class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </a>
+                    <span class="contact-label">电子邮箱</span>
+                    <a href="mailto:807419845@qq.com" class="contact-value" style="text-decoration:none;color:inherit;">807419845@qq.com</a>
+                </div>
+                <div class="contact-item">
+                    <a href="tel:13051500239" class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </a>
+                    <span class="contact-label">联系电话</span>
+                    <a href="tel:13051500239" class="contact-value" style="text-decoration:none;color:inherit;">130-5150-0239</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <span class="contact-label">工作室地址</span>
+                    <span class="contact-value">景德镇市珠山区</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 朱行文陶瓷艺术工作室 | 保留所有权利</p>
+    </footer>
+
+    <!-- 作品详情弹窗 -->
+    <div class="modal-overlay" id="workModal">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <div class="modal-content">
+                <div class="modal-image-section">
+                    <div class="modal-main-image">
+                        <img src="" alt="" id="modalImage">
+                    </div>
+                    <div class="modal-thumbnails" id="modalThumbnails">
+                        <img src="" alt="" class="active">
+                        <img src="" alt="">
+                        <img src="" alt="">
+                        <img src="" alt="">
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <p class="modal-category" id="modalCategory">青花瓷</p>
+                    <h3 class="modal-title" id="modalTitle"></h3>
+                    <p class="modal-price" id="modalPrice">价格面议</p>
+                    <p class="modal-desc" id="modalDesc"></p>
+                    <div class="modal-specs">
+                        <h4>作品规格</h4>
+                        <div class="specs-grid" id="modalSpecs"></div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="add-to-cart-btn" id="addToCartBtn">加入购物单</button>
+                        <button class="contact-buy-btn" id="contactBuyBtn">立即购买</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 购物单侧边栏 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>购物单</h3>
+            <button class="sidebar-close" id="sidebarClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="sidebar-items" id="sidebarItems">
+            <div class="sidebar-empty">购物单为空</div>
+        </div>
+        <div class="cart-summary">
+            <div class="cart-total">
+                <span class="cart-total-label">共计</span>
+                <span class="cart-total-price" id="cartTotal">¥0</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" disabled>提交订单</button>
+        </div>
+    </div>
+
+    <!-- 表单弹窗 -->
+    <div class="form-modal" id="formModal">
+        <div class="form-modal-content">
+            <button class="form-modal-close" id="formModalClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <h3>填写订单信息</h3>
+            <form id="inquiryForm">
+                <div class="form-group">
+                    <label>您的姓名 *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>联系电话 *</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>电子邮箱</label>
+                    <input type="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label>留言信息</label>
+                    <textarea name="message"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">提交订单</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 支付弹窗 -->
+    <div class="pay-modal" id="payModal">
+        <div class="pay-modal-content">
+            <button class="pay-modal-close" id="payModalClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <h3>选择支付方式</h3>
+            <p class="pay-amount">支付金额：<span id="payAmount">¥0</span></p>
+            
+            <!-- 电脑端：显示二维码 -->
+            <div class="pay-qrcode-section" id="payQrcodeSection">
+                <div class="pay-tabs">
+                    <button class="pay-tab active" data-type="wechat">微信支付</button>
+                    <button class="pay-tab" data-type="alipay">支付宝</button>
+                </div>
+                <div class="pay-qrcode">
+                    <img src="wechat-pay.jpg" alt="微信支付" id="wechatQrcode" class="active">
+                    <img src="alipay-pay.jpg" alt="支付宝" id="alipayQrcode">
+                </div>
+                <p class="pay-tip">请使用微信或支付宝扫一扫</p>
+            </div>
+            
+            <!-- 手机端：显示收款码 + 备注提示 -->
+            <div class="pay-mobile-section" id="payMobileSection">
+                <div class="pay-mobile-tabs">
+                    <button class="pay-mobile-tab active" data-type="wechat">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.5,13.5A1.5,1.5 0 0,1 7,12A1.5,1.5 0 0,1 8.5,10.5A1.5,1.5 0 0,1 10,12A1.5,1.5 0 0,1 8.5,13.5M14.5,13.5A1.5,1.5 0 0,1 13,12A1.5,1.5 0 0,1 14.5,10.5A1.5,1.5 0 0,1 16,12A1.5,1.5 0 0,1 14.5,13.5M12,2C6.5,2 2,6 2,11C2,13.5 3.3,15.8 5.3,17.3C5.2,18.2 4.8,20.3 4.7,20.8C4.7,20.8 4.6,21 4.8,21.1C5,21.2 5.8,20.6 6.5,20.1C7.8,20.7 9.4,21 11,21C16.5,21 21,17 21,11.5C21,6 16.5,2 12,2Z"/></svg>
+                        微信
+                    </button>
+                    <button class="pay-mobile-tab" data-type="alipay">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12.5,7H11V13L16.2,16.2L17,14.9L12.5,12.2V7Z"/></svg>
+                        支付宝
+                    </button>
+                </div>
+                <div class="pay-mobile-qrcode">
+                    <img src="wechat-pay.jpg" alt="微信支付" id="mobileWechatQrcode" class="active">
+                    <img src="alipay-pay.jpg" alt="支付宝支付" id="mobileAlipayQrcode">
+                </div>
+                <p class="pay-mobile-tip">长按识别二维码支付</p>
+                
+                <!-- 备注提示区域 -->
+                <div class="pay-remark-section">
+                    <p class="pay-remark-title">⚠️ 支付时请务必备注</p>
+                    <div class="pay-remark-content" id="payRemarkContent">
+                        <span class="pay-remark-text">作品编号：A001</span>
+                        <button class="pay-copy-btn" id="copyRemarkBtn">复制</button>
+                    </div>
+                    <p class="pay-remark-hint">支付完成后请截图保存凭证</p>
+                </div>
+            </div>
+            
+            <p class="pay-notice">支付完成后请截图保留凭证</p>
+        </div>
+    </div>
+
+    <script>
+        // 数据
+        let cart = [];
+        let currentWorkId = null;
+        let currentImage = null;
+
+        // 分页配置
+        const ITEMS_PER_PAGE = 15;
+        let currentPage = 1;
+        let allWorkItems = [];
+
+        // DOM 元素
+        const workModal = document.getElementById('workModal');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const formModal = document.getElementById('formModal');
+        const cartBadge = document.getElementById('cartBadge');
+        const sidebarItems = document.getElementById('sidebarItems');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const cartTotal = document.getElementById('cartTotal');
+        const pagination = document.getElementById('pagination');
+        const galleryGrid = document.querySelector('.gallery-grid');
+
+        // 初始化分页
+        function initPagination() {
+            allWorkItems = Array.from(document.querySelectorAll('.work-item'));
+            renderPage(1, false);
+        }
+
+        // 渲染指定页
+        function renderPage(page, shouldScroll = true) {
+            currentPage = page;
+            const totalPages = Math.ceil(allWorkItems.length / ITEMS_PER_PAGE);
+
+            // 隐藏所有作品
+            allWorkItems.forEach((item, index) => {
+                const start = (currentPage - 1) * ITEMS_PER_PAGE;
+                const end = start + ITEMS_PER_PAGE;
+                if (index >= start && index < end) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // 渲染分页按钮
+            renderPaginationButtons(totalPages);
+
+            // 只有点击分页按钮时才滚动
+            if (shouldScroll) {
+                document.getElementById('gallery').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // 渲染分页按钮
+        function renderPaginationButtons(totalPages) {
+            let html = '';
+            
+            // 判断当前是否处于筛选状态
+            const isFiltered = document.querySelector('.filter-btn.active')?.textContent.trim() !== '全部作品';
+            const renderFunc = isFiltered ? 'renderFilteredPage' : 'renderPage';
+            
+            // 上一页
+            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="${renderFunc}(${currentPage - 1})">上一页</button>`;
+            
+            // 页码
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="${renderFunc}(${i})">${i}</button>`;
+            }
+            
+            // 下一页
+            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="${renderFunc}(${currentPage + 1})">下一页</button>`;
+            
+            pagination.innerHTML = html;
+        }
+
+        // 点击作品打开详情（用事件委托，支持点击子元素）
+        document.querySelector('.gallery-grid').addEventListener('click', function(e) {
+            const workItem = e.target.closest('.work-item');
+            if (!workItem) return;
+
+            const id = workItem.dataset.id;
+            const title = workItem.dataset.title;
+            const image = workItem.dataset.image;
+            const price = workItem.dataset.price || '0';
+            const category = workItem.dataset.category || '';
+            const size = workItem.dataset.size || '';
+            const desc = workItem.dataset.desc || '';
+            const material = workItem.dataset.material || '';
+            const craft = workItem.dataset.craft || '';
+            const year = workItem.dataset.year || '';
+
+            currentWorkId = id;
+            currentImage = image;
+
+            document.getElementById('modalImage').src = image;
+            document.getElementById('modalImage').alt = title;
+            document.getElementById('modalCategory').textContent = category;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDesc').textContent = desc;
+
+            // 显示价格
+            const priceStr = '¥' + parseInt(price).toLocaleString();
+            document.getElementById('modalPrice').textContent = priceStr;
+
+            // 规格表格
+            document.getElementById('modalSpecs').innerHTML = `
+                <div class="specs-row"><span>材质</span><span>${material}</span></div>
+                <div class="specs-row"><span>工艺</span><span>${craft}</span></div>
+                <div class="specs-row"><span>尺寸</span><span>${size}</span></div>
+                <div class="specs-row"><span>年代</span><span>${year}</span></div>
+            `;
+
+            // 获取该作品的所有图片
+            const imagesStr = workItem.dataset.images;
+            const images = imagesStr ? imagesStr.split(',') : [image];
+            
+            // 更新缩略图
+            const thumbnailImgs = document.querySelectorAll('.modal-thumbnails img');
+            thumbnailImgs.forEach((img, index) => {
+                if (index < images.length) {
+                    img.src = images[index];
+                    img.style.display = 'block';
+                } else {
+                    img.style.display = 'none';
+                }
+                img.classList.remove('active');
+            });
+            thumbnailImgs[0].src = images[0];
+            thumbnailImgs[0].classList.add('active');
+
+            // 检查是否已在购物单
+            const btn = document.getElementById('addToCartBtn');
+            if (cart.find(ci => ci.id === id)) {
+                btn.textContent = '已加入购物单';
+                btn.classList.add('added');
+            } else {
+                btn.textContent = '加入购物单';
+                btn.classList.remove('added');
+            }
+
+            workModal.classList.add('show');
+        });
+
+        // 缩略图点击切换
+        document.getElementById('modalThumbnails').addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') {
+                document.querySelectorAll('.modal-thumbnails img').forEach(img => img.classList.remove('active'));
+                e.target.classList.add('active');
+                document.getElementById('modalImage').src = e.target.src;
+            }
+        });
+
+        // 关闭详情弹窗
+        document.getElementById('modalClose').addEventListener('click', () => {
+            workModal.classList.remove('show');
+        });
+
+        workModal.addEventListener('click', (e) => {
+            if (e.target === workModal) {
+                workModal.classList.remove('show');
+            }
+        });
+
+        // 加入/取消购物单
+        document.getElementById('addToCartBtn').addEventListener('click', function() {
+            const title = document.getElementById('modalTitle').textContent;
+            const image = currentImage;
+            const priceText = document.getElementById('modalPrice').textContent;
+            const existingItem = cart.find(item => item.id === currentWorkId);
+
+            if (existingItem) {
+                // 已加入，点击取消
+                cart = cart.filter(item => item.id !== currentWorkId);
+                this.textContent = '加入购物单';
+                this.classList.remove('added');
+            } else {
+                // 未加入，点击加入
+                cart.push({
+                    id: currentWorkId,
+                    title: title,
+                    image: image,
+                    price: priceText
+                });
+                this.textContent = '已加入购物单';
+                this.classList.add('added');
+            }
+            updateCart();
+        });
+
+        // 立即购买按钮 - 先显示表单收集信息
+        const payModal = document.getElementById('payModal');
+        const payModalClose = document.getElementById('payModalClose');
+        const payAmount = document.getElementById('payAmount');
+        let pendingOrder = null;
+
+        document.getElementById('contactBuyBtn').addEventListener('click', () => {
+            const priceText = document.getElementById('modalPrice').textContent;
+            const workTitle = document.getElementById('modalTitle').textContent;
+            
+            // 保存订单信息
+            pendingOrder = {
+                workId: currentWorkId,
+                workTitle: workTitle,
+                price: priceText
+            };
+            
+            // 预填表单信息
+            const messageTextarea = document.querySelector('#inquiryForm textarea[name="message"]');
+            if (messageTextarea) {
+                messageTextarea.value = `购买作品：${workTitle}（${currentWorkId}）\n价格：${priceText}`;
+            }
+            
+            workModal.classList.remove('show');
+            formModal.classList.add('show');
+        });
+
+        // 关闭支付弹窗
+        payModalClose.addEventListener('click', () => {
+            payModal.classList.remove('show');
+        });
+
+        payModal.addEventListener('click', (e) => {
+            if (e.target === payModal) {
+                payModal.classList.remove('show');
+            }
+        });
+
+        // 电脑端支付 - 切换收款码
+        const payTabs = document.querySelectorAll('.pay-tab');
+        const wechatQrcode = document.getElementById('wechatQrcode');
+        const alipayQrcode = document.getElementById('alipayQrcode');
+
+        payTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                payTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const type = tab.dataset.type;
+                if (type === 'wechat') {
+                    wechatQrcode.classList.add('active');
+                    alipayQrcode.classList.remove('active');
+                } else {
+                    wechatQrcode.classList.remove('active');
+                    alipayQrcode.classList.add('active');
+                }
+            });
+        });
+
+        // 手机端支付 - 切换收款码
+        const mobileTabs = document.querySelectorAll('.pay-mobile-tab');
+        const mobileWechatQrcode = document.getElementById('mobileWechatQrcode');
+        const mobileAlipayQrcode = document.getElementById('mobileAlipayQrcode');
+
+        mobileTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                mobileTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const type = tab.dataset.type;
+                if (type === 'wechat') {
+                    mobileWechatQrcode.classList.add('active');
+                    mobileAlipayQrcode.classList.remove('active');
+                } else {
+                    mobileWechatQrcode.classList.remove('active');
+                    mobileAlipayQrcode.classList.add('active');
+                }
+            });
+        });
+
+        // 复制备注按钮
+        const copyRemarkBtn = document.getElementById('copyRemarkBtn');
+        if (copyRemarkBtn) {
+            copyRemarkBtn.addEventListener('click', () => {
+                const remarkText = document.getElementById('payRemarkContent').querySelector('.pay-remark-text').textContent;
+                navigator.clipboard.writeText(remarkText).then(() => {
+                    copyRemarkBtn.textContent = '已复制';
+                    setTimeout(() => {
+                        copyRemarkBtn.textContent = '复制';
+                    }, 2000);
+                }).catch(() => {
+                    // 降级方案
+                    const textarea = document.createElement('textarea');
+                    textarea.value = remarkText;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    copyRemarkBtn.textContent = '已复制';
+                    setTimeout(() => {
+                        copyRemarkBtn.textContent = '复制';
+                    }, 2000);
+                });
+            });
+        }
+
+        // 更新购物单
+        function updateCart() {
+            cartBadge.textContent = cart.length;
+            cartBadge.classList.toggle('show', cart.length > 0);
+            checkoutBtn.disabled = cart.length === 0;
+
+            // 更新作品卡片上的"已在购物单"标签
+            document.querySelectorAll('.work-in-cart').forEach(tag => {
+                const workId = tag.dataset.id;
+                const inCart = cart.some(item => item.id === workId);
+                tag.classList.toggle('show', inCart);
+            });
+
+            if (cart.length === 0) {
+                sidebarItems.innerHTML = '<div class="sidebar-empty">购物单为空</div>';
+                cartTotal.textContent = '¥0';
+            } else {
+                sidebarItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.title}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <p class="cart-item-title">${item.title}</p>
+                            <p class="cart-item-price">${item.price}</p>
+                            <button class="cart-item-remove" data-id="${item.id}">删除</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                // 计算总计
+                let total = 0;
+                cart.forEach(item => {
+                    const priceNum = parseInt(item.price.replace(/[^0-9]/g, ''));
+                    total += priceNum;
+                });
+                cartTotal.textContent = '¥' + total.toLocaleString();
+
+                // 删除功能
+                sidebarItems.querySelectorAll('.cart-item-remove').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        cart = cart.filter(item => item.id !== id);
+                        updateCart();
+
+                        // 重置详情页按钮状态
+                        const btn = document.getElementById('addToCartBtn');
+                        if (currentWorkId === id) {
+                            btn.textContent = '加入购物单';
+                            btn.classList.remove('added');
+                        }
+                    });
+                });
+            }
+        }
+
+        // 打开/关闭购物单侧边栏
+        document.getElementById('cartIcon').addEventListener('click', () => {
+            sidebar.classList.add('show');
+            sidebarOverlay.classList.add('show');
+            document.body.classList.add('sidebar-open');
+        });
+
+        function closeSidebar() {
+            sidebar.classList.remove('show');
+            sidebarOverlay.classList.remove('show');
+            document.body.classList.remove('sidebar-open');
+        }
+
+        document.getElementById('sidebarClose').addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // 提交订单
+        checkoutBtn.addEventListener('click', () => {
+            workModal.classList.remove('show');
+            closeSidebar();
+
+            // 构建意向作品列表
+            const worksList = cart.map(item => item.title).join('、');
+            document.querySelector('#inquiryForm textarea[name="message"]').value = `意向作品：${worksList}`;
+
+            formModal.classList.add('show');
+        });
+
+        document.getElementById('formModalClose').addEventListener('click', () => {
+            formModal.classList.remove('show');
+        });
+
+        formModal.addEventListener('click', (e) => {
+            if (e.target === formModal) {
+                formModal.classList.remove('show');
+            }
+        });
+
+        // 提交表单
+        document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const phone = this.querySelector('input[name="phone"]').value.trim();
+            const email = this.querySelector('input[name="email"]').value.trim();
+
+            // 验证手机号：11位数字
+            const phoneRegex = /^1\d{10}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('请输入正确的11位手机号码');
+                this.querySelector('input[name="phone"]').focus();
+                return;
+            }
+
+            // 验证邮箱（如果填写了）
+            if (email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('请输入正确的邮箱格式');
+                    this.querySelector('input[name="email"]').focus();
+                    return;
+                }
+            }
+
+            const formData = new FormData(this);
+
+            fetch('https://formspree.io/f/xwpkvgpn', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    formModal.classList.remove('show');
+                    this.reset();
+                    
+                    // 表单提交成功后显示支付二维码
+                    if (pendingOrder) {
+                        payAmount.textContent = pendingOrder.price;
+                        // 更新备注内容
+                        const remarkText = document.querySelector('.pay-remark-text');
+                        if (remarkText) {
+                            remarkText.textContent = `作品：${pendingOrder.workTitle}（${pendingOrder.workId}）`;
+                        }
+                        payModal.classList.add('show');
+                        pendingOrder = null;
+                    } else {
+                        alert('订单提交成功！我会尽快与您联系。');
+                        cart = [];
+                        updateCart();
+                    }
+                } else {
+                    alert('提交失败，请稍后重试或发送邮件至 807419845@qq.com');
+                }
+            })
+            .catch(error => {
+                alert('提交失败，请稍后重试或发送邮件至 807419845@qq.com');
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 初始化分页
+        initPagination();
+
+        // 筛选功能
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 更新按钮状态
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const category = this.textContent.trim();
+
+                // 筛选作品
+                allWorkItems.forEach(item => {
+                    const itemCategory = item.dataset.category;
+                    if (category === '全部作品' || itemCategory === category) {
+                        item.classList.remove('filtered-out');
+                    } else {
+                        item.classList.add('filtered-out');
+                    }
+                });
+
+                // 重新分页（基于筛选后的可见作品）
+                currentPage = 1;
+                renderFilteredPage(1, false);
+            });
+        });
+
+        // 渲染筛选后的页面
+        function renderFilteredPage(page, shouldScroll = true) {
+            currentPage = page;
+            
+            // 获取当前可见的作品（未被筛选掉的）
+            const visibleItems = allWorkItems.filter(item => !item.classList.contains('filtered-out'));
+            const totalPages = Math.ceil(visibleItems.length / ITEMS_PER_PAGE);
+
+            // 先隐藏所有作品
+            allWorkItems.forEach(item => {
+                item.style.display = 'none';
+            });
+
+            // 显示当前页的可见作品
+            const start = (currentPage - 1) * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            visibleItems.forEach((item, index) => {
+                if (index >= start && index < end) {
+                    item.style.display = 'block';
+                }
+            });
+
+            // 渲染分页按钮
+            renderPaginationButtons(totalPages);
+
+            // 只有点击分页按钮时才滚动
+            if (shouldScroll) {
+                document.getElementById('gallery').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+    </script>
+</body>
+</html>
