@@ -153,18 +153,21 @@
             display: flex;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 6rem 2rem;
-            gap: 4rem;
+            padding: 4rem 2rem;
+            gap: 3rem;
             align-items: center;
         }
 
         .about-image {
-            flex: 1;
+            flex: 0.9;
         }
 
         .about-image img {
             width: 100%;
-            max-width: 500px;
+            max-width: 100%;
+            height: auto;
+            max-height: 700px;
+            object-fit: cover;
             display: block;
         }
 
@@ -1268,7 +1271,7 @@
 
     <section class="about" id="about">
         <div class="about-image">
-            <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80" alt="朱行文作品">
+            <img src="105.png" alt="朱行文">
         </div>
         <div class="about-content">
             <h2>关于艺术家</h2>
@@ -2392,7 +2395,7 @@
 
             const formData = new FormData(this);
 
-            fetch('https://formspree.io/f/xwpkvgpn', {
+            fetch('https://formsubmit.co/ajax/807419845@qq.com', {
                 method: 'POST',
                 body: formData,
                 headers: {
