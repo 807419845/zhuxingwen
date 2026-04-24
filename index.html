@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>朱行文 · 瓷韵天成</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,12 +15,14 @@
         }
 
         :root {
-            --primary: #1a1a1a;
-            --secondary: #333333;
-            --text: #666666;
-            --light: #f5f5f5;
+            --primary: #3C3C3C;
+            --secondary: #6B6B6B;
+            --text: #6B6B6B;
+            --light: #F5F3EF;
             --white: #ffffff;
-            --accent: #c9a962;
+            --accent: #8B6F47;
+            --bg-primary: #F5F3EF;
+            --bg-secondary: #E8E6E1;
         }
 
         body {
@@ -98,54 +103,107 @@
             display: flex;
         }
 
-        /* 英雄区 - 大标题 */
+        /* 英雄区 - 大幅作品背景 */
         .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 4rem 2rem 4rem;
-            background: #f8f6f3;
+            align-items: flex-start;
+            text-align: left;
+            padding: 4rem 2rem 4rem 8%;
+            background: linear-gradient(135deg, rgba(245,243,239,0.95) 0%, rgba(245,243,239,0.7) 50%, rgba(245,243,239,0.3) 100%),
+                        url('1.jpg');
+            background-size: cover;
+            background-position: center right;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(245,243,239,0.98) 0%, rgba(245,243,239,0.85) 35%, rgba(245,243,239,0.4) 60%, transparent 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 550px;
         }
 
         .hero-subtitle {
-            font-size: 0.85rem;
-            color: var(--text);
-            letter-spacing: 0.3em;
-            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+            color: #8B6F47;
+            letter-spacing: 0.4em;
+            margin-bottom: 1rem;
+            font-weight: 400;
         }
 
         .hero h1 {
-            font-size: 4rem;
-            font-weight: 400;
-            letter-spacing: 0.3em;
-            margin-bottom: 1rem;
+            font-size: 5.5rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
             color: var(--primary);
+            font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            line-height: 1.2;
         }
 
-        .hero p {
+        .hero-tagline {
+            font-size: 1.1rem;
+            color: #6B6B6B;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-desc {
             font-size: 1rem;
             color: var(--text);
-            letter-spacing: 0.1em;
-            max-width: 600px;
+            letter-spacing: 0.05em;
+            max-width: 480px;
             line-height: 2;
+            margin-bottom: 2.5rem;
         }
 
         .hero-btn {
-            margin-top: 2.5rem;
-            padding: 0.8rem 2.5rem;
-            background: var(--primary);
-            color: var(--white);
+            padding: 1rem 3rem;
+            background: transparent;
+            color: #8B6F47;
             text-decoration: none;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
-            transition: all 0.3s;
+            font-size: 0.95rem;
+            letter-spacing: 0.15em;
+            transition: all 0.3s ease;
+            border: 1px solid #8B6F47;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #8B6F47;
+            transition: left 0.3s ease;
+            z-index: -1;
         }
 
         .hero-btn:hover {
-            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .hero-btn:hover::before {
+            left: 0;
         }
 
         /* 关于艺术家 - 左图右文 */
@@ -259,6 +317,7 @@
 
         .work-image-wrap {
             overflow: hidden;
+            position: relative;
         }
 
         .work-image {
@@ -266,7 +325,12 @@
             aspect-ratio: 1;
             object-fit: cover;
             display: block;
-            transition: transform 0.5s;
+            transition: transform 0.5s, opacity 0.4s ease-out;
+            opacity: 0;
+        }
+
+        .work-image.loaded {
+            opacity: 1;
         }
 
         .work-item:hover .work-image {
@@ -326,6 +390,89 @@
 
         .work-in-cart.show {
             display: block;
+        }
+
+        /* 图片遮罩层 - 悬停显示 */
+        .work-image-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0);
+            transition: background 0.3s;
+            pointer-events: none;
+        }
+
+        .work-item:hover .work-image-wrap::after {
+            background: rgba(0,0,0,0.4);
+        }
+
+        /* 查看详情按钮 - 悬停显示 */
+        .work-item .view-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0.875rem 2rem;
+            background: var(--white);
+            color: var(--text-primary);
+            border: none;
+            font-size: 0.95rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            z-index: 2;
+        }
+
+        .work-item:hover .view-btn {
+            opacity: 1;
+        }
+
+        .work-item .view-btn:hover {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        /* 加入收藏按钮 */
+        .add-fav-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: transparent;
+            border: 1px solid #e0e0e0;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-fav-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .add-fav-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--white);
+        }
+
+        /* Toast 提示 */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: var(--white);
+            padding: 1rem 2rem;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
         /* 分页样式 */
@@ -1242,6 +1389,31 @@
                 padding: 1.5rem;
             }
         }
+
+        /* 图片懒加载淡入效果 */
+        .lazy-image {
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+        }
+
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+
+        /* 作品卡片悬浮效果增强 */
+        .work-item {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .work-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
@@ -1263,10 +1435,13 @@
     </nav>
 
     <section class="hero">
-        <p class="hero-subtitle">陶瓷艺术家 · 朱行文</p>
-        <h1>瓷韵天成</h1>
-        <p>以瓷为纸，以釉为墨，每一件作品都是灵魂与泥土的对话。在传统与创新之间，寻找属于这个时代的陶瓷语言。</p>
-        <a href="#gallery" class="hero-btn">探索作品</a>
+        <div class="hero-content">
+            <p class="hero-subtitle">国家一级美术师 · 朱行文</p>
+            <h1>瓷韵天成</h1>
+            <p class="hero-tagline">朱行文陶瓷艺术作品</p>
+            <p class="hero-desc">以瓷为纸，以釉为墨，每一件作品都是灵魂与泥土的对话。在传统与创新之间，寻找属于这个时代的陶瓷语言。</p>
+            <a href="#gallery" class="hero-btn">欣赏作品</a>
+        </div>
     </section>
 
     <section class="about" id="about">
@@ -1298,14 +1473,17 @@
         <div class="gallery-grid">
             <div class="work-item" data-id="1" data-title="青花山水瓷瓶 No.001" data-image="1.jpg" data-images="1.jpg,2.jpg,3.jpg,4.jpg" data-price="12800" data-category="瓷瓶" data-size="高35cm" data-desc="采用优质景德镇高岭土，经1380度高温烧制而成。画面描绘山水意境，笔触细腻，层次分明，是传统青花艺术的经典之作。" data-material="景德镇高岭土" data-craft="釉下彩手工绘制" data-year="2024年">
                 <span class="work-in-cart" data-id="1">已在购物单</span>
-                <img src="1.jpg" alt="作品1" class="work-image">
+                <div class="work-image-wrap" style="position: relative;">
+                    <img src="1.jpg" alt="作品1" class="work-image">
+                    <button class="view-btn" onclick="openWorkModal(1)">查看详情</button>
+                </div>
                 <div class="work-info">
                     <h3 class="work-title">青花山水瓷瓶 No.001</h3>
                     <div class="work-meta">
                         <span class="work-category">瓷瓶</span>
                         <span class="work-price">¥12,800</span>
                     </div>
-                    <span class="work-size">高35cm</span>
+                    <button class="add-fav-btn" onclick="toggleCart(1, event)">加入收藏</button>
                 </div>
             </div>
             <div class="work-item" data-id="2" data-title="粉彩花鸟瓷瓶 No.002" data-image="5.jpg" data-images="5.jpg,6.jpg,7.jpg" data-price="15600" data-category="瓷瓶" data-size="高42cm" data-desc="经典的缠枝莲纹样，线条流畅优美，展现了中国传统装饰艺术的精髓。每一件都是纯手工绘制，独一无二。" data-material="景德镇高岭土" data-craft="粉彩工艺" data-year="2024年">
@@ -1983,10 +2161,121 @@
         let currentWorkId = null;
         let currentImage = null;
 
+        // 打开作品详情弹窗
+        function openWorkModal(id) {
+            const workItem = document.querySelector(`.work-item[data-id="${id}"]`);
+            if (!workItem) return;
+            
+            currentWorkId = id;
+            const title = workItem.dataset.title;
+            const price = workItem.dataset.price;
+            const category = workItem.dataset.category;
+            const size = workItem.dataset.size;
+            const desc = workItem.dataset.desc;
+            const material = workItem.dataset.material;
+            const craft = workItem.dataset.craft;
+            const year = workItem.dataset.year;
+            const image = workItem.dataset.image;
+            
+            document.getElementById('modalImage').src = image;
+            document.getElementById('modalCategory').textContent = category;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalPrice').textContent = '¥' + parseInt(price).toLocaleString();
+            document.getElementById('modalDesc').textContent = desc;
+            
+            // 更新规格信息
+            const specsGrid = document.getElementById('modalSpecs');
+            specsGrid.innerHTML = `
+                <div class="spec-item"><span class="spec-label">尺寸</span><span class="spec-value">${size}</span></div>
+                <div class="spec-item"><span class="spec-label">材质</span><span class="spec-value">${material}</span></div>
+                <div class="spec-item"><span class="spec-label">工艺</span><span class="spec-value">${craft}</span></div>
+                <div class="spec-item"><span class="spec-label">创作年份</span><span class="spec-value">${year}</span></div>
+            `;
+            
+            // 更新缩略图
+            const thumbnails = document.getElementById('modalThumbnails');
+            const images = workItem.dataset.images ? workItem.dataset.images.split(',') : [image];
+            thumbnails.innerHTML = images.map((img, idx) => 
+                `<img src="${img.trim()}" alt="" class="${idx === 0 ? 'active' : ''}" onclick="switchModalImage('${img.trim()}')">`
+            ).join('');
+            
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            addToCartBtn.textContent = cart.includes(id) ? '已加入购物单' : '加入购物单';
+            
+            document.getElementById('workModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 切换弹窗主图
+        function switchModalImage(src) {
+            document.getElementById('modalImage').src = src;
+            document.querySelectorAll('#modalThumbnails img').forEach(img => {
+                img.classList.toggle('active', img.src.includes(src));
+            });
+        }
+
+        // 切换收藏
+        function toggleCart(id, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            const index = cart.indexOf(id);
+            if (index > -1) {
+                cart.splice(index, 1);
+                showToast('已从收藏单移除');
+            } else {
+                cart.push(id);
+                showToast('已加入收藏单');
+            }
+            
+            updateCartUI();
+            
+            // 更新按钮状态
+            const btn = event ? event.target : null;
+            if (btn) {
+                btn.textContent = cart.includes(id) ? '已收藏' : '加入收藏';
+                btn.classList.toggle('active', cart.includes(id));
+            }
+        }
+
+        // 显示提示
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            }
+        }
+
+        // 更新购物车UI
+        function updateCartUI() {
+            const cartBadge = document.getElementById('cartBadge');
+            if (cartBadge) {
+                cartBadge.textContent = cart.length;
+                cartBadge.classList.toggle('show', cart.length > 0);
+            }
+        }
+
         // 分页配置
         const ITEMS_PER_PAGE = 15;
         let currentPage = 1;
         let allWorkItems = [];
+
+        // 图片懒加载
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.classList.add('loaded');
+                    observer.unobserve(img);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
 
         // DOM 元素
         const workModal = document.getElementById('workModal');
@@ -2447,6 +2736,27 @@
         // 初始化分页
         initPagination();
 
+        // 初始化图片懒加载
+        function initLazyLoad() {
+            const images = document.querySelectorAll('.work-image');
+            images.forEach(img => {
+                // 图片已加载完成时直接显示
+                if (img.complete) {
+                    img.classList.add('loaded');
+                } else {
+                    // 使用IntersectionObserver监听
+                    imageObserver.observe(img);
+                    // 备用：load事件
+                    img.addEventListener('load', () => {
+                        img.classList.add('loaded');
+                    });
+                }
+            });
+        }
+
+        // 页面加载完成后初始化懒加载
+        window.addEventListener('load', initLazyLoad);
+
         // 筛选功能
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -2506,5 +2816,9 @@
             }
         }
     </script>
+
+    <!-- Toast 提示 -->
+    <div class="toast" id="toast"></div>
+
 </body>
 </html>
