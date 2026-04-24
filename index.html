@@ -642,34 +642,25 @@
             margin-bottom: 2rem;
         }
 
-        .modal-specs {
+        .modal-details {
             margin-bottom: 2rem;
         }
 
-        .modal-specs h4 {
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            border-bottom: 1px solid #eee;
-            padding-bottom: 0.5rem;
-        }
-
-        .specs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
-            font-size: 0.85rem;
-        }
-
-        .specs-row {
+        .modal-detail-item {
             display: flex;
-            justify-content: space-between;
-            color: var(--text);
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--bg-secondary);
         }
 
-        .specs-row span:first-child {
-            color: #999;
+        .modal-detail-label {
+            width: 100px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .modal-detail-value {
+            flex: 1;
+            color: var(--text-primary);
         }
 
         .modal-buttons {
@@ -2145,10 +2136,7 @@
                     <h3 class="modal-title" id="modalTitle"></h3>
                     <p class="modal-price" id="modalPrice">价格面议</p>
                     <p class="modal-desc" id="modalDesc"></p>
-                    <div class="modal-specs">
-                        <h4>作品规格</h4>
-                        <div class="specs-grid" id="modalSpecs"></div>
-                    </div>
+                    <div class="modal-details" id="modalSpecs"></div>
                     <div class="modal-buttons">
                         <button class="add-to-cart-btn" id="addToCartBtn">加入购物单</button>
                         <button class="contact-buy-btn" id="contactBuyBtn">立即购买</button>
@@ -2301,12 +2289,12 @@
             document.getElementById('modalDesc').textContent = desc;
             
             // 更新规格信息
-            const specsGrid = document.getElementById('modalSpecs');
-            specsGrid.innerHTML = `
-                <div class="spec-item"><span class="spec-label">尺寸</span><span class="spec-value">${size}</span></div>
-                <div class="spec-item"><span class="spec-label">材质</span><span class="spec-value">${material}</span></div>
-                <div class="spec-item"><span class="spec-label">工艺</span><span class="spec-value">${craft}</span></div>
-                <div class="spec-item"><span class="spec-label">创作年份</span><span class="spec-value">${year}</span></div>
+            const specsDiv = document.getElementById('modalSpecs');
+            specsDiv.innerHTML = `
+                <div class="modal-detail-item"><span class="modal-detail-label">尺寸</span><span class="modal-detail-value">${size}</span></div>
+                <div class="modal-detail-item"><span class="modal-detail-label">材质</span><span class="modal-detail-value">${material}</span></div>
+                <div class="modal-detail-item"><span class="modal-detail-label">工艺</span><span class="modal-detail-value">${craft}</span></div>
+                <div class="modal-detail-item"><span class="modal-detail-label">创作年份</span><span class="modal-detail-value">${year}</span></div>
             `;
             
             // 更新缩略图
@@ -2493,10 +2481,10 @@
 
             // 规格表格
             document.getElementById('modalSpecs').innerHTML = `
-                <div class="specs-row"><span>材质</span><span>${material}</span></div>
-                <div class="specs-row"><span>工艺</span><span>${craft}</span></div>
-                <div class="specs-row"><span>尺寸</span><span>${size}</span></div>
-                <div class="specs-row"><span>年代</span><span>${year}</span></div>
+                <div class="modal-detail-item"><span class="modal-detail-label">尺寸</span><span class="modal-detail-value">${size}</span></div>
+                <div class="modal-detail-item"><span class="modal-detail-label">材质</span><span class="modal-detail-value">${material}</span></div>
+                <div class="modal-detail-item"><span class="modal-detail-label">工艺</span><span class="modal-detail-value">${craft}</span></div>
+                <div class="modal-detail-item"><span class="modal-detail-label">创作年份</span><span class="modal-detail-value">${year}</span></div>
             `;
 
             // 获取该作品的所有图片
